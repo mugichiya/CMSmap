@@ -1,4 +1,11 @@
 CMSmap
+
+- このレポジトリは、https://github.com/Dionach/CMSmapよりForkしています。
+- searchsploitの--colourに対する修正を行いました。
+- DirectoryListingに関する修正を行いました。
+- WordPressでのみ動作確認をおこなっているため、おそらくそれ以外のものについても同様の修正を加える必要があります。
+
+
 ======
 
 CMSmap is a python open source CMS scanner that automates the process of detecting security flaws of the most popular CMSs. The main purpose of CMSmap is to integrate common vulnerabilities for different types of CMSs in a single tool.
