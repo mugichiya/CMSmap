@@ -196,13 +196,22 @@ class WPScan:
         msg = "Checking for Directory Listing Enabled ..."
         report.info(msg)
         report.WriteTextFile(msg)
+        genericchecker.url = self.url
+        base_url = self.url.rstrip('/')
         for folder in self.defaultFolders:
-            genericchecker.DirectoryListing(folder)
+            if folder.startswith("http"):
+                target_url = folder
+            elif folder.startswith("/"):
+                target_url = base_url + folder
+            else:
+                target_url = base_url + "/" + folder
+            genericchecker.DirectoryListing(target_url)
+            print(target_url)
         if self.theme:
-            genericchecker.DirectoryListing('/wp-content/themes/' + self.theme)
+            genericchecker.DirectoryListing(base_url + "/wp-content/themes/" + self.theme)
         for plugin in self.pluginsFound:
-            genericchecker.DirectoryListing('/wp-content/plugins/' + plugin)
-
+            genericchecker.DirectoryListing(base_url + "/wp-content/plugins/" + plugin)
+            
     # Find plugins checking the source code of the main page
     def WPpluginsIndex(self):
         msg = "Checking WordPress plugins in the index page"
