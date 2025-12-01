@@ -40,16 +40,20 @@ class GenericChecks:
                 re.compile('(.+?)/[A-Za-z0-9]+\.txt|php'), self.url)[0]
 
     # Check if directory is listing
-    def DirectoryListing(self, relPath):
-        self.relPath = relPath
-        msg = "Checking directory listing: " + self.relPath
+    def DirectoryListing(self, url):
+        msg = "Checking directory listing: " + url
         report.verbose(msg)
-        requester.request(self.url + self.relPath, data=None)
-        dirList = re.search("<title>Index of", requester.htmltext, re.IGNORECASE)
-        if dirList: 
-            msg = self.url + self.relPath
-            report.low(msg)
-        
+        try:
+            requester.request(url, data=None)
+            report.verbose("Status Code: " + str(requester.status_code))
+            dirList = re.search("<title>Index of", requester.htmltext, re.IGNORECASE)
+            if dirList: 
+                print(url)
+                report.low(url)
+        except Exception as e:
+            report.error(f"Unable to scan: {url}")
+            report.error(str(e))
+
     # Check if website is over HTTPS
     def HTTPSCheck(self):
         msg = "Checking if the website is in HTTPS ..."
